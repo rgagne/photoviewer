@@ -75,10 +75,13 @@
         CDVPluginResult* pluginResult = nil;
         NSString* url = [command.arguments objectAtIndex:0];
         NSString* title = [command.arguments objectAtIndex:1];
-        BOOL isShareEnabled = [[command.arguments objectAtIndex:2] boolValue];
+        BOOL isShareEnabled = FALSE; //[[command.arguments objectAtIndex:2] boolValue];
         showCloseBtn = [[command.arguments objectAtIndex:3] boolValue];
         copyToReference = [[command.arguments objectAtIndex:4] boolValue];
-        headers = [self headers:[command.arguments objectAtIndex:5]];
+        NSString* headers = [command.arguments objectAtIndex:5];
+        if (headers != nil && headers != (id)[NSNull null]) {
+            [self headers:headers];
+        }
         
         if ([url rangeOfString:@"http"].location == 0) {
             copyToReference = true;
@@ -246,7 +249,8 @@
         [imageLabel setTextColor:[UIColor whiteColor]];
         [imageLabel setBackgroundColor:[UIColor clearColor]];
         [imageLabel setFont:[UIFont fontWithName: @"San Fransisco" size: 14.0f]];
-        [imageLabel setText:title];
+        if (title != nil && title != (id)[NSNull null]) [imageLabel setText:title];
+        
         [self.viewController.view addSubview:imageLabel];
         
     } else {
